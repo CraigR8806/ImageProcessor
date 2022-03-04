@@ -18,5 +18,11 @@ class Kernel(Filter):
     def getMatrix(self):
         return self.matrix
 
+    def transpose(self, in_place=True):
+        if in_place:
+            self.matrix.transpose()
+        else:
+            return Kernel(self.length, self.matrix.transpose(in_place=False))
+
 
     
