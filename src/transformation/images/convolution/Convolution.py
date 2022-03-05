@@ -6,33 +6,35 @@ import numpy as np
 
 class Convolution(ImageTransformation, ABC):
     
-    def __init__(self, kernels):
+    def __init__(self, kernels, kernelSize):
         super().__init__()
         self.kernels = kernels
+        self.kernelSize = kernelSize
     
     def getKernels(self):
         return self.kernels
     
     def convolve(self, image):
-        outchannels=[]
-        numberOfChannels=len(image[0][0])
-        for layer in self.kernels:
-            outchannel=[]
-            for i in range(len(image[0])):
-                if i+layer.getLength() > len(image[0]):
-                        continue
-                outrow=[]
-                for j in range(len(image)):
-                    if j+layer.getLength() > len(image):
-                        continue
-                    outpixel=[]
-                    for k in range(len(image[0][0])):
-                        subset = list(image[i:i+layer.getLength(), j:j+layer.getLength(), k].flat)
-                        outpixel.append(layer.getMatrix().elementWiseMultiply(Matrix.fromFlatListGivenRowNumber(layer.getLength(), subset), in_place=False).sum())
-                    outrow.append(outpixel)
-                outchannel.append(outrow)
-            max=np.max(outchannel)
-            min=np.min(outchannel)
-            outchannel=(((outchannel - min)/(max - min))*255).astype(np.int32)
-            outchannels.append(outchannel)
-        return outchannels
+        outimage=[]
+        height = image.shape[0]
+        width = image.shape[1]
+        channels = image.shape[2]
+        for row in range(height):
+            if row+self.kernelSize > height:
+                    continue
+            outrow=[]
+            for column in range(width):
+                if column+self.kernelSize > width:
+                    continue
+                outrow.append(self._convoleOperation(row, column, channels, image))
+            outimage.append(outrow)
+        return np.array(outimage)
+
+
+    def _convoleOperation(self, row, column, channels, image):
+        outpixel = []
+        for channel in range(channels):
+            subset = list(image[row:row+self.kernelSize, column:column+self.kernelSize, channel].flat)
+            for kernel in self.kernels:
+                outpixel.append(kernel.getMatrix().elementWiseMultiply(Matrix.fromFlatListGivenRowNumber(self.kernelSize, subset), in_place=False).sum())
+        return outpixel

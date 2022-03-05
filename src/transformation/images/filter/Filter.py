@@ -1,8 +1,8 @@
 class Filter:
 
-    def __init__(self, length):
-        self.length = length
+    def __init__(self, size):
+        self.size = size
 
 
-    def getLength(self):
-        return self.length
+    def getSize(self):
+        return self.size

@@ -15,16 +15,19 @@ class Pooling(ImageTransformation, ABC):
         pass
 
     def transform(self, image):
-        outputchannels=[]
-        for channel in range(len(image[0][0])):
-            outputchannel=[]
-            for i in range(0, len(image[0]), self.filter.getLength()):
-                outputrow=[]
-                for j in range(0, len(image), self.filter.getLength()):
-                    outputrow.append(self.pool(image[i:i+self.filter.getLength(), j:j+self.filter.getLength(), channel]))
-                outputchannel.append(outputrow)
-            outputchannels.append(outputchannel)
-        return np.dstack(outputchannels)
+        outimage=[]
+        height = image.shape[0]
+        width = image.shape[1]
+        channels = image.shape[2]
+        for row in range(0, height, self.filter.getSize()):
+            outrow=[]
+            for column in range(0, width, self.filter.getSize()):
+                outpixel=[]
+                for channel in range(channels):
+                    outpixel.append(self.pool(image[row:row+self.filter.getSize(), column:column+self.filter.getSize(), channel]))
+                outrow.append(outpixel)
+            outimage.append(outrow)
+        return outimage
 
 
 

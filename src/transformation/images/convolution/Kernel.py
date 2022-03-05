@@ -5,15 +5,15 @@ class Kernel(Filter):
 
 
 
-    def __init__(self, length, matrix):
-        super().__init__(length)
+    def __init__(self, size, matrix):
+        super().__init__(size)
         self.matrix = matrix
 
 
     @classmethod
-    def random(cls, length, calcManager=None, random_low=0, random_high=1):
-        matrix=Matrix.random(length, length, calcManager=calcManager, random_low=random_low, random_high=random_high)
-        return cls(length, matrix)
+    def random(cls, size, calcManager=None, random_low=0, random_high=1):
+        matrix=Matrix.random(size, size, calcManager=calcManager, random_low=random_low, random_high=random_high)
+        return cls(size, matrix)
 
     def getMatrix(self):
         return self.matrix
@@ -22,7 +22,7 @@ class Kernel(Filter):
         if in_place:
             self.matrix.transpose()
         else:
-            return Kernel(self.length, self.matrix.transpose(in_place=False))
+            return Kernel(self.size, self.matrix.transpose(in_place=False))
 
 
     
