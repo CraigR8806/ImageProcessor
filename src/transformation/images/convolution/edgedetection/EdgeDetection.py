@@ -8,7 +8,7 @@ from parallellinear.datatypes.Matrix import Matrix
 class EdgeDetection(Convolution, ABC):
 
     def __init__(self, kernel):
-        super().__init__([kernel], kernel.getSize())
+        super().__init__([kernel])
 
 
     def transform(self, image):

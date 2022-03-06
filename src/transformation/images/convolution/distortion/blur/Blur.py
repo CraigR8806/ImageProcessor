@@ -5,7 +5,7 @@ from transformation.images.convolution.Convolution import Convolution
 class Blur(Convolution, ABC):
 
     def __init__(self, kernel):
-        super().__init__([kernel], kernel.getSize())
+        super().__init__([kernel])
 
     @abstractmethod
     def transform(self, image):

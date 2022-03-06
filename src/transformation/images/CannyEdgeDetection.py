@@ -1,8 +1,7 @@
-from re import L
 from transformation.images.ImageTransformation import ImageTransformation
 from transformation.images.convolution.edgedetection.SobelProcessing import SobelProcessing
 from transformation.images.convolution.distortion.blur.GaussianBlur import GaussianBlur
-from transformation.images.pooling.ThresholdPooling import ThresholdPooling
+from transformation.images.convolution.pooling.ThresholdPooling import ThresholdPooling
 from transformation.images.filter.Greyscale import Greyscale
 from transformation.images.Normalize import Normalize
 

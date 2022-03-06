@@ -1,4 +1,4 @@
-from transformation.images.pooling.Pooling import Pooling
+from transformation.images.convolution.pooling.Pooling import Pooling
 import numpy as np
 
 
@@ -10,7 +10,6 @@ class ThresholdPooling(Pooling):
 
     def pool(self, matrix):
         return 255 if np.average(matrix) >= self.threshold else 0
-
 
     def transform(self, image):
         return super().transform(image)

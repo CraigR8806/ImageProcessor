@@ -6,10 +6,10 @@ import numpy as np
 
 class Convolution(ImageTransformation, ABC):
     
-    def __init__(self, kernels, kernelSize):
+    def __init__(self, kernels):
         super().__init__()
         self.kernels = kernels
-        self.kernelSize = kernelSize
+        self.filterSize=kernels[0].getSize()
     
     def getKernels(self):
         return self.kernels
@@ -20,11 +20,11 @@ class Convolution(ImageTransformation, ABC):
         width = image.shape[1]
         channels = image.shape[2]
         for row in range(height):
-            if row+self.kernelSize > height:
+            if row+self.filterSize > height:
                     continue
             outrow=[]
             for column in range(width):
-                if column+self.kernelSize > width:
+                if column+self.filterSize > width:
                     continue
                 outrow.append(self._convoleOperation(row, column, channels, image))
             outimage.append(outrow)
@@ -34,7 +34,7 @@ class Convolution(ImageTransformation, ABC):
     def _convoleOperation(self, row, column, channels, image):
         outpixel = []
         for channel in range(channels):
-            subset = list(image[row:row+self.kernelSize, column:column+self.kernelSize, channel].flat)
+            subset = list(image[row:row+self.filterSize, column:column+self.filterSize, channel].flat)
             for kernel in self.kernels:
-                outpixel.append(kernel.getMatrix().elementWiseMultiply(Matrix.fromFlatListGivenRowNumber(self.kernelSize, subset), in_place=False).sum())
+                outpixel.append(kernel.getMatrix().elementWiseMultiply(Matrix.fromFlatListGivenRowNumber(self.filterSize, subset), in_place=False).sum())
         return outpixel
