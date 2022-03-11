@@ -8,10 +8,15 @@ class Suppression(Convolution, ABC):
         super().__init__([Filter(filterSize)])
         
     def transform(self, image):
-        pass
+        return self.convolve(image)
 
     @abstractmethod
     def suppress(self):
         pass
 
+    def _convoleOperation(self, row, column, channels, image):
+        outpixel=[]
+        for channel in range(channels):
+            outpixel.append(self.supress(image[row:row+self.filterSize, column:column+self.filterSize, channel]))
+        return outpixel
     

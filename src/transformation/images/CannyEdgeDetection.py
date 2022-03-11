@@ -34,15 +34,15 @@ class CanneyEdgeDetection(ImageTransformation):
 
     def transform(self, image):
         greyscaleFilter = Greyscale()
-        normalization = Normalize(0, 255)
 
-        image = greyscaleFilter.transform(image)
+        if len(image.shape)>2:
+            image = greyscaleFilter.transform(image)
+        else:
+            image.shape = (image.shape[0], image.shape[1], 1)
         for i in range(self.gaussianPasses):
             image = self.gaussianProcessor.transform(image)
 
         image = self.sobelProcessor.transform(image)
-
-        image = normalization.transform(image)
 
         if self.thresholdPooling != None:
             image = self.thresholdPooling.transform(image)
