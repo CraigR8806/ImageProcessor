@@ -21,7 +21,7 @@ class Collage(Mutator):
         outimage[oirow:oirow+self.filterSize, oicol:oicol+self.filterSize] = self._getScaledImageDataGivenPath(compositionPath)
 
     def loadCompositionImages(self, basePath):
-        for entry in glob.glob(basePath + "/**/*"):
+        for entry in glob.glob(basePath + "/*"):
             self._addImageToCompositionImagesByPath(entry)
 
 

@@ -20,7 +20,7 @@ class Mutator(ImageTransformation, ABC):
         for row in range(0, height, self.sampleSize):
             if row+self.sampleSize > height:
                 continue
-            # print("Starting row: "+ str(row))
+            print("Starting row: "+ str(row))
             for column in range(0, width, self.sampleSize):
                 if column+self.sampleSize > width:
                     continue
